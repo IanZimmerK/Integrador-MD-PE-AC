@@ -17,7 +17,15 @@ def pedir_entero(mensaje, valores_permitidos=None):
 def pausar():
     input('\nPresiona Enter para continuar...')
 
+def principal():
+    # Carga obligatoria al inicio
+    imprimir_encabezado('Carga de matrices (inicio)')
+    orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
+    matriz_a = ingresar_matriz(orden, 'A')
+    matriz_b = ingresar_matriz(orden, 'B')
+    menu_principal(matriz_a, matriz_b, orden)
 
+    
 def elegir_matriz(descripcion='matriz'):
     while True:
         letra = input("Selecciona matriz ({}): A/B: ".format(descripcion)).strip().upper()
@@ -124,15 +132,6 @@ def menu_principal(matriz_a, matriz_b, orden):
             imprimir_matriz(matriz_a, 'A')
             imprimir_matriz(matriz_b, 'B')
             pausar()
-
-def principal():
-    # Carga obligatoria al inicio
-    imprimir_encabezado('Carga de matrices (inicio)')
-    orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
-    matriz_a = ingresar_matriz(orden, 'A')
-    matriz_b = ingresar_matriz(orden, 'B')
-    menu_principal(matriz_a, matriz_b, orden)
-
 
 if __name__ == '__main__':
     principal()
