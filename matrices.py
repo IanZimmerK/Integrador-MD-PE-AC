@@ -48,7 +48,6 @@ def sumar(matriz_a, matriz_b):
         matriz_resultado.append(fila_resultado)
     return matriz_resultado
 
-
 def transponer(matriz):
     # Transpuesta de matriz: intercambia filas por columnas.
     # Se usa un doble bucle sencillo: transpuesta[fila][columna] = matriz[columna][fila]
@@ -63,9 +62,9 @@ def transponer(matriz):
 
 
 def multiplicar(matriz_a, matriz_b, mostrar_rastro=False):
-    """Multiplica matriz_a * matriz_b (matrices cuadradas). Si mostrar_rastro=True imprime un rastro sencillo.
-    Algoritmo clásico con tres bucles: fila (filas de A), columna (columnas de B), indice (suma de productos).
-    """
+    # Multiplica matriz_a * matriz_b (matrices cuadradas). Si mostrar_rastro=True imprime un rastro sencillo.
+    # Algoritmo clásico con tres bucles: fila (filas de A), columna (columnas de B), indice (suma de productos).
+    
     if not matriz_a or not matriz_b or len(matriz_a) != len(matriz_b):
         return None
     orden = len(matriz_a)

@@ -1,6 +1,5 @@
 from matrices import ingresar_matriz, imprimir_matriz, sumar, transponer, multiplicar, calcular_determinante
 
-
 def pedir_entero(mensaje, valores_permitidos=None):
     # Pide un entero al usuario y valida que esté en 'valores_permitidos' si se proporciona.
     while True:
