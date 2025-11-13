@@ -1,4 +1,4 @@
-from matrices import ingresar_matriz, imprimir_matriz, sumar, transponer, multiplicar, calcular_determinante
+from matrices import ingresar_matriz, imprimir_matriz, sumar, restar, transponer, multiplicar, calcular_determinante
 
 def pedir_entero(mensaje, valores_permitidos=None):
     # Pide un entero al usuario y valida que esté en 'valores_permitidos' si se proporciona.
@@ -55,6 +55,12 @@ def ejecutar_operacion(operacion, A, B, orden):
         C = sumar(A, B)
         imprimir_matriz(C, 'A + B')
 
+    elif operacion == 'resta':
+        imprimir_encabezado('Resta: A - B')
+        print('La resta se realiza elemento a elemento: C[i][j] = A[i][j] - B[i][j]')
+        C = restar(A, B)
+        imprimir_matriz(C, 'A - B')
+
     elif operacion == 'transpuesta':
         cual = elegir_matriz('a transponer')
         M = A if cual == 'A' else B
@@ -98,18 +104,19 @@ def menu_principal(matriz_a, matriz_b, orden):
     while True:
         print('\nOperaciones disponibles:')
         print(' 1) Sumar A + B')
-        print(' 2) Transponer (elige A o B)')
-        print(' 3) Multiplicar A * B')
-        print(' 4) Determinante (elige A o B)')
-        print(' 5) Recargar matrices (cambiar orden y cargar de nuevo)')
+        print(' 2) Restar A - B')
+        print(' 3) Transponer (elige A o B)')
+        print(' 4) Multiplicar A * B')
+        print(' 5) Determinante (elige A o B)')
+        print(' 6) Recargar matrices (cambiar orden y cargar de nuevo)')
         print(' 0) Salir')
-        opcion = pedir_entero('Elige (0-5): ', valores_permitidos={0, 1, 2, 3, 4, 5})
+        opcion = pedir_entero('Elige (0-6): ', valores_permitidos={0, 1, 2, 3, 4, 5, 6})
         if opcion == 0:
             return
-        mapeo_operaciones = {1: 'suma', 2: 'transpuesta', 3: 'multiplicacion', 4: 'determinante'}
+        mapeo_operaciones = {1: 'suma', 2: 'resta', 3: 'transpuesta', 4: 'multiplicacion', 5: 'determinante'}
         if opcion in mapeo_operaciones:
             ejecutar_operacion(mapeo_operaciones[opcion], matriz_a, matriz_b, orden)
-        elif opcion == 5:
+        elif opcion == 6:
             orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
             matriz_a = ingresar_matriz(orden, 'A')
             matriz_b = ingresar_matriz(orden, 'B')

@@ -48,6 +48,23 @@ def sumar(matriz_a, matriz_b):
         matriz_resultado.append(fila_resultado)
     return matriz_resultado
 
+
+def restar(matriz_a, matriz_b):
+    # Resta matriz_a - matriz_b (asume matrices cuadradas del mismo tamaño).
+    # Implementada con bucles claros para que los alumnos comprendan índices fila, columna.
+    if not matriz_a or not matriz_b or len(matriz_a) != len(matriz_b):
+        return None
+    orden = len(matriz_a)
+    matriz_resultado = []
+    for indice_fila in range(orden):
+        fila_resultado = []
+        for indice_columna in range(orden):
+            # resta elemento a elemento
+            fila_resultado.append(matriz_a[indice_fila][indice_columna] - matriz_b[indice_fila][indice_columna])
+        matriz_resultado.append(fila_resultado)
+    return matriz_resultado
+
+
 def transponer(matriz):
     # Transpuesta de matriz: intercambia filas por columnas.
     # Se usa un doble bucle sencillo: transpuesta[fila][columna] = matriz[columna][fila]
