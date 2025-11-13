@@ -87,7 +87,7 @@ def ejecutar_operacion(operacion, A, B, orden):
     pausar()
 
 
-def submenu_inicial(matriz_a, matriz_b, orden):
+def menu_principal(matriz_a, matriz_b, orden):
     imprimir_encabezado('Matrices cargadas')
     imprimir_matriz(matriz_a, 'A')
     imprimir_matriz(matriz_b, 'B')
@@ -101,50 +101,14 @@ def submenu_inicial(matriz_a, matriz_b, orden):
         print(' 2) Transponer (elige A o B)')
         print(' 3) Multiplicar A * B')
         print(' 4) Determinante (elige A o B)')
-        print(' 0) Volver al menú principal')
-        opcion = pedir_entero('Elige (0-4): ', valores_permitidos={0, 1, 2, 3, 4})
-        if opcion == 0:
-            return
-        mapeo_operaciones = {1: 'suma', 2: 'transpuesta', 3: 'multiplicacion', 4: 'determinante'}
-        ejecutar_operacion(mapeo_operaciones[opcion], matriz_a, matriz_b, orden)
-
-
-def menu_principal(matriz_a, matriz_b, orden):
-    while True:
-        imprimir_encabezado('Menú principal')
-        print('Acciones:')
-        print(' 1) Mostrar matrices (A, B)')
-        print(' 2) Operaciones aritméticas (A + B, A * B)')
-        print(' 3) Transformaciones (transponer A/B)')
-        print(' 4) Determinante (A o B)')
         print(' 5) Recargar matrices (cambiar orden y cargar de nuevo)')
         print(' 0) Salir')
         opcion = pedir_entero('Elige (0-5): ', valores_permitidos={0, 1, 2, 3, 4, 5})
         if opcion == 0:
-            if input('¿Seguro que quieres salir? (s/n): ').strip().lower() == 's':
-                print('Saliendo...')
-                return
-            else:
-                continue
-
-        if opcion == 1:
-            imprimir_encabezado('Mostrar matrices')
-            imprimir_matriz(matriz_a, 'A')
-            imprimir_matriz(matriz_b, 'B')
-            pausar()
-        elif opcion == 2:
-            print('\nOperaciones aritméticas:')
-            print(' 1) Sumar A + B')
-            print(' 2) Multiplicar A * B')
-            subopcion = pedir_entero('Elige (1-2): ', valores_permitidos={1, 2})
-            if subopcion == 1:
-                ejecutar_operacion('suma', matriz_a, matriz_b, orden)
-            else:
-                ejecutar_operacion('multiplicacion', matriz_a, matriz_b, orden)
-        elif opcion == 3:
-            ejecutar_operacion('transpuesta', matriz_a, matriz_b, orden)
-        elif opcion == 4:
-            ejecutar_operacion('determinante', matriz_a, matriz_b, orden)
+            return
+        mapeo_operaciones = {1: 'suma', 2: 'transpuesta', 3: 'multiplicacion', 4: 'determinante'}
+        if opcion in mapeo_operaciones:
+            ejecutar_operacion(mapeo_operaciones[opcion], matriz_a, matriz_b, orden)
         elif opcion == 5:
             orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
             matriz_a = ingresar_matriz(orden, 'A')
@@ -153,9 +117,6 @@ def menu_principal(matriz_a, matriz_b, orden):
             imprimir_matriz(matriz_a, 'A')
             imprimir_matriz(matriz_b, 'B')
             pausar()
-        else:
-            print('Opción no implementada')
-
 
 def principal():
     # Carga obligatoria al inicio
@@ -163,7 +124,6 @@ def principal():
     orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
     matriz_a = ingresar_matriz(orden, 'A')
     matriz_b = ingresar_matriz(orden, 'B')
-    submenu_inicial(matriz_a, matriz_b, orden)
     menu_principal(matriz_a, matriz_b, orden)
 
 
