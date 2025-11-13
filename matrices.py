@@ -117,16 +117,3 @@ def calcular_determinante(matriz):
     if orden == 3:
         return determinante_3x3(matriz)
     return None
-
-
-if __name__ == '__main__':
-    # Pequeña demo para quien abra este archivo directamente.
-    print('Demo rápido: suma y multiplicación 2x2')
-    matriz_a = [[1, 2], [3, 4]]
-    matriz_b = [[5, 6], [7, 8]]
-    print('A =', matriz_a)
-    print('B =', matriz_b)
-    print('A + B =', sumar(matriz_a, matriz_b))
-    print('A * B =')
-    matriz_c = multiplicar(matriz_a, matriz_b)
-    print(matriz_c)
