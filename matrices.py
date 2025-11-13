@@ -105,32 +105,68 @@ def multiplicar(matriz_a, matriz_b, mostrar_rastro=False):
     return matriz_resultado
 
 
-def determinante_2x2(matriz):
-    """Determinante de 2x2: ad - bc"""
-    return matriz[0][0] * matriz[1][1] - matriz[0][1] * matriz[1][0]
+def determinante_2x2(matriz, mostrar_pasos=False):
+    # Determinante de 2x2: ad - bc
+    a = matriz[0][0]
+    b = matriz[0][1]
+    c = matriz[1][0]
+    d = matriz[1][1]
+    
+    producto_principal = a * d
+    producto_secundario = b * c
+    
+    if mostrar_pasos:
+        print('\nCálculo del determinante 2x2:')
+        print('  Diagonal principal: {} × {} = {}'.format(a, d, producto_principal))
+        print('  Diagonal secundaria: {} × {} = {}'.format(b, c, producto_secundario))
+        print('\nDeterminante: {} - {} = {}'.format(producto_principal, producto_secundario, producto_principal - producto_secundario))
+    
+    return producto_principal - producto_secundario
 
 
-def determinante_3x3(matriz):
-    """Determinante de 3x3 usando la regla de Sarrus con pasos explícitos."""
+def determinante_3x3(matriz, mostrar_pasos=False):
+
     a, b, c = matriz[0]
     d, e, f = matriz[1]
     g, h, i = matriz[2]
-    # diagonales positivas
+    
     diagonal_positiva_1 = a * e * i
-    diagonal_positiva_2 = b * f * g
-    diagonal_positiva_3 = c * d * h
-    # diagonales negativas
+    diagonal_positiva_2 = d * h * c
+    diagonal_positiva_3 = f * b * g
+    
+    
     diagonal_negativa_1 = c * e * g
-    diagonal_negativa_2 = a * f * h
-    diagonal_negativa_3 = b * d * i
-    return (diagonal_positiva_1 + diagonal_positiva_2 + diagonal_positiva_3) - (diagonal_negativa_1 + diagonal_negativa_2 + diagonal_negativa_3)
+    diagonal_negativa_2 = d * b * i
+    diagonal_negativa_3 = f * h * a
+
+    
+    if mostrar_pasos:
+        suma_positivas = diagonal_positiva_1 + diagonal_positiva_2 + diagonal_positiva_3
+        suma_negativas = diagonal_negativa_1 + diagonal_negativa_2 + diagonal_negativa_3
+        
+        print('\nDiagonales positivas:')
+        print('  {} × {} × {} = {}'.format(a, e, i, diagonal_positiva_1))
+        print('  {} × {} × {} = {}'.format(d, h, c, diagonal_positiva_2))
+        print('  {} × {} × {} = {}'.format(f, b, g, diagonal_positiva_3))
+        print('  Suma positivas: {} + {} + {} = {}'.format(diagonal_positiva_1, diagonal_positiva_2, diagonal_positiva_3, suma_positivas))
+        
+        print('\nDiagonales negativas:')
+        print('  {} × {} × {} = {}'.format(c, e, g, diagonal_negativa_1))
+        print('  {} × {} × {} = {}'.format(d, b, i, diagonal_negativa_2))
+        print('  {} × {} × {} = {}'.format(f, h, a, diagonal_negativa_3))
+        print('  Suma negativas: {} + {} + {} = {}'.format(diagonal_negativa_1, diagonal_negativa_2, diagonal_negativa_3, suma_negativas))
+        
+        resultado = suma_positivas - suma_negativas
+        print('\nDeterminante: {} - {} = {}'.format(suma_positivas, suma_negativas, resultado))
+    
 
 
-def calcular_determinante(matriz):
+
+def calcular_determinante(matriz, mostrar_pasos=False):
     """Selector de determinante según el tamaño (2 o 3)."""
     orden = len(matriz)
     if orden == 2:
-        return determinante_2x2(matriz)
+        return determinante_2x2(matriz, mostrar_pasos)
     if orden == 3:
-        return determinante_3x3(matriz)
+        return determinante_3x3(matriz, mostrar_pasos)
     return None

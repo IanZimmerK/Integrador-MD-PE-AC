@@ -91,9 +91,15 @@ def ejecutar_operacion(operacion, A, B, orden):
         cual = elegir_matriz('para determinante')
         M = A if cual == 'A' else B
         imprimir_encabezado('Determinante')
-        print('Cálculo directo para matrices 2x2 o 3x3')
-        d = calcular_determinante(M)
-        print(f"Determinante de {cual}: {d}")
+        imprimir_matriz(M, cual)
+        
+        quiere = input('\n¿Ver cálculo paso a paso? (s/n): ').strip().lower()
+        mostrar_pasos = (quiere == 's')
+        
+        d = calcular_determinante(M, mostrar_pasos)
+        
+        if not mostrar_pasos:
+            print(f"\nDeterminante de {cual}: {d}")
 
     else:
         print('Operación desconocida')
