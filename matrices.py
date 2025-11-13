@@ -1,136 +1,133 @@
-def input_matrix(n, name='A'):
-    """Pide al usuario n filas de n enteros y devuelve la matriz como lista de listas.
-    Se valida que la fila tenga exactamente n valores
-    y que sean enteros.
- """
-    print("Introduce los elementos de la matriz {} {}x{} fila por fila, separados por espacios:".format(name, n, n))
-    mat = []
-    for i in range(n):
+def ingresar_matriz(orden, nombre='A'):
+    # Pide al usuario orden filas de orden enteros y devuelve la matriz como lista de listas.
+    # Se valida que la fila tenga exactamente orden valores
+    # y que sean enteros.
+    print("Introduce los elementos de la matriz {} {}x{} fila por fila, separados por espacios:".format(nombre, orden, orden))
+    matriz = []
+    for indice_fila in range(orden):
         while True:
-            raw = input("Fila {} ({} valores): ".format(i + 1, n)).strip()
-            parts = raw.split()
-            if len(parts) != n:
-                print("Se esperaban {} valores, recibidos {}. Intenta de nuevo.".format(n, len(parts)))
+            entrada_texto = input("Fila {} ({} valores): ".format(indice_fila + 1, orden)).strip()
+            partes = entrada_texto.split()
+            if len(partes) != orden:
+                print("Se esperaban {} valores, recibidos {}. Intenta de nuevo.".format(orden, len(partes)))
                 continue
             try:
-                row = [int(x) for x in parts]
+                fila = [int(valor) for valor in partes]
             except ValueError:
                 print("Valores inválidos: usa enteros.")
                 continue
-            mat.append(row)
+            matriz.append(fila)
             break
-    return mat
+    return matriz
 
 
-def print_matrix(M, name='M'):
-    """Imprime la matriz de forma legible. Evita formatos avanzados.
-    """
-    if M is None or len(M) == 0:
-        print("Matriz {}: (vacía)".format(name))
+def imprimir_matriz(matriz, nombre='M'):
+    # Imprime la matriz de forma legible
+    if matriz is None or len(matriz) == 0:
+        print("Matriz {}: (vacía)".format(nombre))
         return
-    n = len(M)
-    print("Matriz {} ({}x{}):".format(name, n, len(M[0]) if n > 0 else 0))
-    for row in M:
+    orden = len(matriz)
+    print("Matriz {} ({}x{}):".format(nombre, orden, len(matriz[0]) if orden > 0 else 0))
+    for fila in matriz:
         # imprimimos con espacio simple para que sea claro
-        print('  ' + ' '.join(str(v) for v in row))
+        print('  ' + ' '.join(str(valor) for valor in fila))
 
 
-def add(A, B):
-    """Suma A + B (asume matrices cuadradas del mismo tamaño).
-    Implementada con bucles claros para que los alumnos comprendan índices i,j.
-    """
-    if not A or not B or len(A) != len(B):
+def sumar(matriz_a, matriz_b):
+    # Suma matriz_a + matriz_b (asume matrices cuadradas del mismo tamaño).
+    # Implementada con bucles claros para que los alumnos comprendan índices fila, columna.
+    if not matriz_a or not matriz_b or len(matriz_a) != len(matriz_b):
         return None
-    n = len(A)
-    C = []
-    for i in range(n):
-        row = []
-        for j in range(n):
+    orden = len(matriz_a)
+    matriz_resultado = []
+    for indice_fila in range(orden):
+        fila_resultado = []
+        for indice_columna in range(orden):
             # suma elemento a elemento
-            row.append(A[i][j] + B[i][j])
-        C.append(row)
-    return C
+            fila_resultado.append(matriz_a[indice_fila][indice_columna] + matriz_b[indice_fila][indice_columna])
+        matriz_resultado.append(fila_resultado)
+    return matriz_resultado
 
 
-def transpose(A):
-    """Transpuesta de A: intercambia filas por columnas.
-    Se usa un doble bucle sencillo: nuevo[i][j] = A[j][i]
+def transponer(matriz):
+    # Transpuesta de matriz: intercambia filas por columnas.
+    # Se usa un doble bucle sencillo: transpuesta[fila][columna] = matriz[columna][fila]
+    orden = len(matriz)
+    matriz_transpuesta = []
+    for indice_fila in range(orden):
+        fila_resultado = []
+        for indice_columna in range(orden):
+            fila_resultado.append(matriz[indice_columna][indice_fila])
+        matriz_transpuesta.append(fila_resultado)
+    return matriz_transpuesta
+
+
+def multiplicar(matriz_a, matriz_b, mostrar_rastro=False):
+    """Multiplica matriz_a * matriz_b (matrices cuadradas). Si mostrar_rastro=True imprime un rastro sencillo.
+    Algoritmo clásico con tres bucles: fila (filas de A), columna (columnas de B), indice (suma de productos).
     """
-    n = len(A)
-    T = []
-    for i in range(n):
-        row = []
-        for j in range(n):
-            row.append(A[j][i])
-        T.append(row)
-    return T
-
-
-def multiply(A, B, trace=False):
-    """Multiplica A * B (matrices cuadradas). Si trace=True imprime un rastro sencillo.
-    Algoritmo clásico con tres bucles: i (filas de A), j (columnas de B), k (suma de productos).
-    """
-    if not A or not B or len(A) != len(B):
+    if not matriz_a or not matriz_b or len(matriz_a) != len(matriz_b):
         return None
-    n = len(A)
-    C = [[0 for _ in range(n)] for _ in range(n)]
-    for i in range(n):
-        for j in range(n):
-            acc = 0
-            for k in range(n):
-                # producto A[i][k] * B[k][j]
-                a = A[i][k]
-                b = B[k][j]
-                prod = a * b
-                acc += prod
-                if trace:
-                    # dirección fila‑mayor simple: addr = fila * n + columna
-                    addr_a = i * n + k
-                    addr_b = k * n + j
-                    print("Acceso: A[{}][{}] (addr {}) = {} ; B[{}][{}] (addr {}) = {} ; prod = {} ; acc = {}".format(i, k, addr_a, a, k, j, addr_b, b, prod, acc))
-            C[i][j] = acc
-    return C
+    orden = len(matriz_a)
+    matriz_resultado = [[0 for _ in range(orden)] for _ in range(orden)]
+    for indice_fila in range(orden):
+        for indice_columna in range(orden):
+            acumulador = 0
+            for indice in range(orden):
+                # producto matriz_a[fila][indice] * matriz_b[indice][columna]
+                valor_a = matriz_a[indice_fila][indice]
+                valor_b = matriz_b[indice][indice_columna]
+                producto = valor_a * valor_b
+                acumulador += producto
+                if mostrar_rastro:
+                    # dirección fila‑mayor simple: direccion = fila * orden + columna
+                    direccion_a = indice_fila * orden + indice
+                    direccion_b = indice * orden + indice_columna
+                    print("Acceso: A[{}][{}] (dir {}) = {} ; B[{}][{}] (dir {}) = {} ; producto = {} ; acumulador = {}".format(
+                        indice_fila, indice, direccion_a, valor_a, indice, indice_columna, direccion_b, valor_b, producto, acumulador))
+            matriz_resultado[indice_fila][indice_columna] = acumulador
+    return matriz_resultado
 
 
-def determinant2(A):
+def determinante_2x2(matriz):
     """Determinante de 2x2: ad - bc"""
-    return A[0][0] * A[1][1] - A[0][1] * A[1][0]
+    return matriz[0][0] * matriz[1][1] - matriz[0][1] * matriz[1][0]
 
 
-def determinant3(A):
+def determinante_3x3(matriz):
     """Determinante de 3x3 usando la regla de Sarrus con pasos explícitos."""
-    a, b, c = A[0]
-    d, e, f = A[1]
-    g, h, i = A[2]
+    a, b, c = matriz[0]
+    d, e, f = matriz[1]
+    g, h, i = matriz[2]
     # diagonales positivas
-    p1 = a * e * i
-    p2 = b * f * g
-    p3 = c * d * h
+    diagonal_positiva_1 = a * e * i
+    diagonal_positiva_2 = b * f * g
+    diagonal_positiva_3 = c * d * h
     # diagonales negativas
-    n1 = c * e * g
-    n2 = a * f * h
-    n3 = b * d * i
-    return (p1 + p2 + p3) - (n1 + n2 + n3)
+    diagonal_negativa_1 = c * e * g
+    diagonal_negativa_2 = a * f * h
+    diagonal_negativa_3 = b * d * i
+    return (diagonal_positiva_1 + diagonal_positiva_2 + diagonal_positiva_3) - (diagonal_negativa_1 + diagonal_negativa_2 + diagonal_negativa_3)
 
 
-def determinant(A):
+def calcular_determinante(matriz):
     """Selector de determinante según el tamaño (2 o 3)."""
-    n = len(A)
-    if n == 2:
-        return determinant2(A)
-    if n == 3:
-        return determinant3(A)
+    orden = len(matriz)
+    if orden == 2:
+        return determinante_2x2(matriz)
+    if orden == 3:
+        return determinante_3x3(matriz)
     return None
 
 
 if __name__ == '__main__':
     # Pequeña demo para quien abra este archivo directamente.
     print('Demo rápido: suma y multiplicación 2x2')
-    A = [[1, 2], [3, 4]]
-    B = [[5, 6], [7, 8]]
-    print('A =', A)
-    print('B =', B)
-    print('A + B =', add(A, B))
+    matriz_a = [[1, 2], [3, 4]]
+    matriz_b = [[5, 6], [7, 8]]
+    print('A =', matriz_a)
+    print('B =', matriz_b)
+    print('A + B =', sumar(matriz_a, matriz_b))
     print('A * B =')
-    C = multiply(A, B)
-    print(C)
+    matriz_c = multiplicar(matriz_a, matriz_b)
+    print(matriz_c)

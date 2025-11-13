@@ -1,101 +1,101 @@
-from matrices import input_matrix, print_matrix, add, transpose, multiply, determinant
+from matrices import ingresar_matriz, imprimir_matriz, sumar, transponer, multiplicar, calcular_determinante
 
 
-def ask_int(prompt, allowed=None):
-    """Pide un entero al usuario y valida que esté en 'allowed' si se proporciona."""
+def pedir_entero(mensaje, valores_permitidos=None):
+    # Pide un entero al usuario y valida que esté en 'valores_permitidos' si se proporciona.
     while True:
         try:
-            v = int(input(prompt))
+            valor = int(input(mensaje))
         except ValueError:
             print("Entrada inválida — ingresa un entero.")
             continue
-        if allowed and v not in allowed:
-            print("Valor no permitido. Opciones: {}".format(sorted(allowed)))
+        if valores_permitidos and valor not in valores_permitidos:
+            print("Valor no permitido. Opciones: {}".format(sorted(valores_permitidos)))
             continue
-        return v
+        return valor
 
 
-def pause():
+def pausar():
     input('\nPresiona Enter para continuar...')
 
 
-def choose_matrix(name='matriz'):
+def elegir_matriz(descripcion='matriz'):
     while True:
-        c = input("Selecciona matriz ({}): A/B: ".format(name)).strip().upper()
-        if c in ('A', 'B'):
-            return c
+        letra = input("Selecciona matriz ({}): A/B: ".format(descripcion)).strip().upper()
+        if letra in ('A', 'B'):
+            return letra
         print("Entrada inválida — escribe A o B.")
 
 
-def print_header(title):
+def imprimir_encabezado(titulo):
     print('\n' + '=' * 40)
-    print(title)
+    print(titulo)
     print('=' * 40)
 
 
-def show_memory_map(M, name='M'):
-    """Muestra una vista aplanada (fila‑mayor) de la matriz."""
-    if not M:
-        print('Matriz {} vacía'.format(name))
+def mostrar_mapa_memoria(matriz, nombre='M'):
+    # Muestra una vista aplanada (fila‑mayor) de la matriz.
+    if not matriz:
+        print('Matriz {} vacía'.format(nombre))
         return
-    n = len(M)
-    flat = []
-    for i in range(n):
-        for j in range(n):
-            flat.append(M[i][j])
-    print('\nMapa de memoria (fila‑mayor) de {}:'.format(name))
-    for idx, val in enumerate(flat):
-        print('  addr {} -> {}'.format(idx, val))
+    orden = len(matriz)
+    lista_aplanada = []
+    for indice_fila in range(orden):
+        for indice_columna in range(orden):
+            lista_aplanada.append(matriz[indice_fila][indice_columna])
+    print('\nMapa de memoria (fila‑mayor) de {}:'.format(nombre))
+    for direccion, valor in enumerate(lista_aplanada):
+        print('  dir {} -> {}'.format(direccion, valor))
 
 
-def do_operation(op, A, B, n):
-    """Ejecuta una operación y muestra una breve explicación para estudiantes."""
-    if op == 'sum':
-        print_header('Suma: A + B')
+def ejecutar_operacion(operacion, A, B, orden):
+    # Ejecuta una operación y muestra una breve explicación para estudiantes.
+    if operacion == 'suma':
+        imprimir_encabezado('Suma: A + B')
         print('La suma se realiza elemento a elemento: C[i][j] = A[i][j] + B[i][j]')
-        C = add(A, B)
-        print_matrix(C, 'A + B')
+        C = sumar(A, B)
+        imprimir_matriz(C, 'A + B')
 
-    elif op == 'transpose':
-        which = choose_matrix('a transponer')
-        M = A if which == 'A' else B
-        print_header('Transpuesta')
+    elif operacion == 'transpuesta':
+        cual = elegir_matriz('a transponer')
+        M = A if cual == 'A' else B
+        imprimir_encabezado('Transpuesta')
         print('La transpuesta intercambia filas y columnas: T[i][j] = M[j][i]')
-        T = transpose(M)
-        print_matrix(T, f"{which}^T")
+        T = transponer(M)
+        imprimir_matriz(T, f"{cual}^T")
 
-    elif op == 'multiply':
-        print_header('Multiplicación: A * B')
+    elif operacion == 'multiplicacion':
+        imprimir_encabezado('Multiplicación: A * B')
         print('Regla: C[i][j] = sum_k A[i][k] * B[k][j]')
-        want = input('¿Ver rastro paso a paso de A * B? (s/n): ').strip().lower()
-        if want == 's':
-            C = multiply(A, B, trace=True)
+        quiere = input('¿Ver rastro paso a paso de A * B? (s/n): ').strip().lower()
+        if quiere == 's':
+            C = multiplicar(A, B, mostrar_rastro=True)
         else:
-            C = multiply(A, B, trace=False)
-        print_matrix(C, 'A * B')
+            C = multiplicar(A, B, mostrar_rastro=False)
+        imprimir_matriz(C, 'A * B')
 
-    elif op == 'determinant':
-        which = choose_matrix('para determinante')
-        M = A if which == 'A' else B
-        print_header('Determinante')
+    elif operacion == 'determinante':
+        cual = elegir_matriz('para determinante')
+        M = A if cual == 'A' else B
+        imprimir_encabezado('Determinante')
         print('Cálculo directo para matrices 2x2 o 3x3')
-        d = determinant(M)
-        print(f"Determinante de {which}: {d}")
+        d = calcular_determinante(M)
+        print(f"Determinante de {cual}: {d}")
 
     else:
         print('Operación desconocida')
 
-    pause()
+    pausar()
 
 
-def initial_submenu(A, B, n):
-    print_header('Matrices cargadas')
-    print_matrix(A, 'A')
-    print_matrix(B, 'B')
+def submenu_inicial(matriz_a, matriz_b, orden):
+    imprimir_encabezado('Matrices cargadas')
+    imprimir_matriz(matriz_a, 'A')
+    imprimir_matriz(matriz_b, 'B')
     # pregunta didáctica: mostrar cómo se vería la memoria fila‑mayor
     if input('\n¿Quieres ver el mapa de memoria (fila‑mayor) de A y B? (s/n): ').strip().lower() == 's':
-        show_memory_map(A, 'A')
-        show_memory_map(B, 'B')
+        mostrar_mapa_memoria(matriz_a, 'A')
+        mostrar_mapa_memoria(matriz_b, 'B')
     while True:
         print('\nOperaciones disponibles:')
         print(' 1) Sumar A + B')
@@ -103,16 +103,16 @@ def initial_submenu(A, B, n):
         print(' 3) Multiplicar A * B')
         print(' 4) Determinante (elige A o B)')
         print(' 0) Volver al menú principal')
-        choice = ask_int('Elige (0-4): ', allowed={0, 1, 2, 3, 4})
-        if choice == 0:
+        opcion = pedir_entero('Elige (0-4): ', valores_permitidos={0, 1, 2, 3, 4})
+        if opcion == 0:
             return
-        mapping = {1: 'sum', 2: 'transpose', 3: 'multiply', 4: 'determinant'}
-        do_operation(mapping[choice], A, B, n)
+        mapeo_operaciones = {1: 'suma', 2: 'transpuesta', 3: 'multiplicacion', 4: 'determinante'}
+        ejecutar_operacion(mapeo_operaciones[opcion], matriz_a, matriz_b, orden)
 
 
-def main_menu(A, B, n):
+def menu_principal(matriz_a, matriz_b, orden):
     while True:
-        print_header('Menú principal')
+        imprimir_encabezado('Menú principal')
         print('Acciones:')
         print(' 1) Mostrar matrices (A, B)')
         print(' 2) Operaciones aritméticas (A + B, A * B)')
@@ -120,53 +120,53 @@ def main_menu(A, B, n):
         print(' 4) Determinante (A o B)')
         print(' 5) Recargar matrices (cambiar orden y cargar de nuevo)')
         print(' 0) Salir')
-        choice = ask_int('Elige (0-5): ', allowed={0, 1, 2, 3, 4, 5})
-        if choice == 0:
+        opcion = pedir_entero('Elige (0-5): ', valores_permitidos={0, 1, 2, 3, 4, 5})
+        if opcion == 0:
             if input('¿Seguro que quieres salir? (s/n): ').strip().lower() == 's':
                 print('Saliendo...')
                 return
             else:
                 continue
 
-        if choice == 1:
-            print_header('Mostrar matrices')
-            print_matrix(A, 'A')
-            print_matrix(B, 'B')
-            pause()
-        elif choice == 2:
+        if opcion == 1:
+            imprimir_encabezado('Mostrar matrices')
+            imprimir_matriz(matriz_a, 'A')
+            imprimir_matriz(matriz_b, 'B')
+            pausar()
+        elif opcion == 2:
             print('\nOperaciones aritméticas:')
             print(' 1) Sumar A + B')
             print(' 2) Multiplicar A * B')
-            sub = ask_int('Elige (1-2): ', allowed={1, 2})
-            if sub == 1:
-                do_operation('sum', A, B, n)
+            subopcion = pedir_entero('Elige (1-2): ', valores_permitidos={1, 2})
+            if subopcion == 1:
+                ejecutar_operacion('suma', matriz_a, matriz_b, orden)
             else:
-                do_operation('multiply', A, B, n)
-        elif choice == 3:
-            do_operation('transpose', A, B, n)
-        elif choice == 4:
-            do_operation('determinant', A, B, n)
-        elif choice == 5:
-            n = ask_int('Orden (2 o 3): ', allowed={2, 3})
-            A = input_matrix(n, 'A')
-            B = input_matrix(n, 'B')
+                ejecutar_operacion('multiplicacion', matriz_a, matriz_b, orden)
+        elif opcion == 3:
+            ejecutar_operacion('transpuesta', matriz_a, matriz_b, orden)
+        elif opcion == 4:
+            ejecutar_operacion('determinante', matriz_a, matriz_b, orden)
+        elif opcion == 5:
+            orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
+            matriz_a = ingresar_matriz(orden, 'A')
+            matriz_b = ingresar_matriz(orden, 'B')
             print('\nMatrices recargadas:')
-            print_matrix(A, 'A')
-            print_matrix(B, 'B')
-            pause()
+            imprimir_matriz(matriz_a, 'A')
+            imprimir_matriz(matriz_b, 'B')
+            pausar()
         else:
             print('Opción no implementada')
 
 
-def main():
+def principal():
     # Carga obligatoria al inicio
-    print_header('Carga de matrices (inicio)')
-    n = ask_int('Orden (2 o 3): ', allowed={2, 3})
-    A = input_matrix(n, 'A')
-    B = input_matrix(n, 'B')
-    initial_submenu(A, B, n)
-    main_menu(A, B, n)
+    imprimir_encabezado('Carga de matrices (inicio)')
+    orden = pedir_entero('Orden (2 o 3): ', valores_permitidos={2, 3})
+    matriz_a = ingresar_matriz(orden, 'A')
+    matriz_b = ingresar_matriz(orden, 'B')
+    submenu_inicial(matriz_a, matriz_b, orden)
+    menu_principal(matriz_a, matriz_b, orden)
 
 
 if __name__ == '__main__':
-    main()
+    principal()
