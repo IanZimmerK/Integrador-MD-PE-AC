@@ -50,7 +50,7 @@ def mostrar_mapa_memoria(matriz, nombre='M'):
     for indice_fila in range(orden):
         for indice_columna in range(orden):
             lista_aplanada.append(matriz[indice_fila][indice_columna])
-    print('\nMapa de memoria (fila‑mayor) de {}:'.format(nombre))
+    print('\nMapa de memoria (fila mayor) de {}:'.format(nombre))
     for direccion, valor in enumerate(lista_aplanada):
         print('  dir {} -> {}'.format(direccion, valor))
 
