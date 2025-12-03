@@ -113,7 +113,6 @@ def ejecutar_operacion(operacion, A, B, orden):
         c= multiplicar_escalar(matriz, esc)
         imprimir_matriz(c, f"{esc} * {cual}")
 
-
     else:
         print('Operación desconocida')
 
