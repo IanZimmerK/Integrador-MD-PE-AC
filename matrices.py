@@ -158,9 +158,6 @@ def determinante_3x3(matriz, mostrar_pasos=False):
         
         resultado = suma_positivas - suma_negativas
         print('\nDeterminante: {} - {} = {}'.format(suma_positivas, suma_negativas, resultado))
-    
-
-
 
 def calcular_determinante(matriz, mostrar_pasos=False):
     """Selector de determinante según el tamaño (2 o 3)."""
@@ -171,6 +168,7 @@ def calcular_determinante(matriz, mostrar_pasos=False):
         return determinante_3x3(matriz, mostrar_pasos)
     return None
 
+# Modificacion Final Programacion
 def multiplicar_escalar(matriz, escalar):
     """Multiplica una matriz por un escalar: C[i][j] = escalar * M[i][j]."""
     orden = len(matriz)

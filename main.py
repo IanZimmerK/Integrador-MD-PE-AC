@@ -101,7 +101,9 @@ def ejecutar_operacion(operacion, A, B, orden):
         
         if not mostrar_pasos:
             print(f"\nDeterminante de {cual}: {d}")
-    
+
+# Modificacion Final Programacion 
+
     elif operacion == 'escalar':
         cual= elegir_matriz('a multiplicar por escalar')
         matriz = A if cual == 'A' else B
@@ -118,7 +120,6 @@ def ejecutar_operacion(operacion, A, B, orden):
         print('Operación desconocida')
 
     pausar()
-
 
 def menu_principal(matriz_a, matriz_b, orden):
     imprimir_encabezado('Matrices cargadas')
